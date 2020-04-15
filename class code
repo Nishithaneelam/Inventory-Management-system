@@ -1,0 +1,183 @@
+package p11;
+import java.io.*;
+import java.lang.*;
+import java.net.*;
+import java.security.*;
+import sun.misc.*;
+public class B
+{
+	int total;
+	String productname[]=new String[10],productnameout[]=new String[10],code[]=new String[10],codeout[]=new String[10];
+	int itemno,countin,countout,noout[]=new int[10],no[]=new int[10],tot,tot1,t;
+	String customname[]=new String[5],customerid[]=new String[5];
+	int currentstackin[]=new int[10],currentstackout[]=new int[10],rs[]=new int[10],rss[]=new int[10],h;
+	BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+	int n,k;
+	int m;
+	int q;
+      B()
+     {
+      itemno=0;
+      countin=0;
+      countout=0;
+      tot=tot1=0;
+	total=0;
+      n=k=m=q=h=t=0;
+     }
+         public void stockin()throws IOException
+         {
+	try 
+	{
+	int n;
+	System.out.println("Enter the no of item going to stockin");
+	n=Integer.parseInt(br.readLine());
+	for(int i=0;i<n;i++)
+		{
+		System.out.println("Enter the product name");
+		productname[i]=br.readLine();
+		System.out.println("Enter the product code");
+		code[i]=br.readLine();
+		System.out.println("Enter the product price");
+		rs[i]=Integer.parseInt(br.readLine());
+		System.out.println("Enter the no of product");
+		no[i]=Integer.parseInt(br.readLine());
+		tot+=rs[i]*no[i];
+		itemno+=no[i];
+		countin++;
+                            System.out.println("Total amount of the stockin RS "+tot);
+		}
+               }
+              catch (Exception e)
+             {
+	System.out.println(e);
+              }
+         }
+	
+          public void stockout()throws IOException
+          {
+	System.out.println("Available products");
+	if(countin>0)
+	{
+		for(int i=0;i<countin;i++)
+		{
+			System.out.println("Product name: "+productname[i]);
+			System.out.println("Product code: "+code[i]);
+			System.out.println("No of Product: "+no[i]);
+			System.out.println("Product price: "+rs[i]);	
+		}
+		do
+		{		
+			System.out.println("Enter the customer name");
+			customname[q]=br.readLine();
+			System.out.println("Enter the customer id");
+			customerid[q]=br.readLine();
+			q++;t++;
+			System.out.println("Enter the no of item going to stockout");
+			n=Integer.parseInt(br.readLine());
+			for(int i=0;i<n;i++)
+			{
+				System.out.println("Enter the product code");
+				codeout[i]=br.readLine();
+				System.out.println("Enter the retail price of the item");
+				rss[i]=Integer.parseInt(br.readLine());
+
+				for(int j=0;j<countin;j++)
+				{
+					if(codeout[i].equals(code[j]))
+					{	
+						System.out.println("Enter the product name");
+						productnameout[i]=br.readLine();
+						System.out.println("Enter the no of product ");
+						noout[i]=Integer.parseInt(br.readLine());
+						//System.out.println("Enter the retail price of the item");
+						//rss[i]=Integer.parseInt(br.readLine());
+						if(noout[i]<=no[j])
+						{
+							itemno-=noout[i];
+							no[j]-=noout[i];
+							tot1+=rs[j]*noout[i];
+							System.out.println("total stockout price is"+tot1);
+
+							if(no[j]==0)
+								countin--;//no of product
+							countout++;//how much they took
+						}
+						else 
+						{System.out.println("No sufficient stock");q--;t--;}
+					}
+//					else
+//					{System.out.println("Invalid code for the product");q--;t--;}
+				}
+//tot+=rs[i]*no[i];
+					//System.out.println("total price is"+tot1);
+
+			}
+			
+			System.out.println("for continuing online shopping press 1");	
+			k=Integer.parseInt(br.readLine());	
+		}while(k==1);
+	}
+	else
+	System.out.println("stock is empty");
+         }
+
+         public void inventory()throws IOException
+         {
+	for(int i=0;i<countin;i++)
+	{
+		System.out.println("Product name: "+productname[i]);
+		System.out.println("Product code: "+code[i]);
+		System.out.println("Product price: "+rs[i]);
+		System.out.println("No of Product: "+no[i]);	
+	}
+	System.out.println("Current item number"+itemno);
+	System.out.println("Current product number"+countin);
+	if(countin>0)
+	{
+	System.out.println("Stockin report");
+	for(int i=0;i<countin;i++)
+	{
+		
+		System.out.println("Product name: "+productname[i]);																	System.out.println("Product code: "+code[i]);
+		System.out.println("Product price: "+rs[i]);
+		System.out.println("No of Product: "+no[i]);
+		
+			//System.out.println("customer name"+customname[i]);
+			//System.out.println("customer id"+customerid[i]);
+			total+=rs[i]*no[i];
+			}
+	System.out.println("Total price for the stockin items: "+total);
+        }}
+
+        public void salesreport()throws IOException
+        {
+	//int i;
+	
+	//int m=0;
+	int po[]=new int[10];
+	if(countout>0)
+	{
+		
+		for(int i=0;i<countin;i++)
+		{
+		System.out.println("Sales report");
+		System.out.println("customer name"+customname[i]);
+		System.out.println("customer id"+customerid[i]);
+		
+		System.out.println("Product name: "+productname[i]);																	
+    System.out.println("Product code: "+code[i]);
+		System.out.println("Product price: "+rss[i]);
+		System.out.println("No of Product: "+noout[i]);
+		po[i]+=noout[i]*rss[i];
+		System.out.println("total price to pay for that product"+po[i]);
+		System.out.println();
+		}
+		//System.out.println("total price to pay for the customer"+po[i]);
+	}
+
+	
+else
+System.out.println("Stock empty");
+}
+}
+
